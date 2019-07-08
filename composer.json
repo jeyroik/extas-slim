@@ -1,0 +1,14 @@
+{
+  "name": "jeyroik/extas-slim",
+  "description": "Slim app for Extas",
+  "require": {
+    "slim/slim": "^3.0",
+    "jeyroik/extas-server": "*",
+    "vlucas/phpdotenv": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "extas\\": "src/"
+    }
+  }
+}
