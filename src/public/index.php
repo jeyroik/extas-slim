@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use extas\components\SystemContainer as Container;
 use extas\interfaces\servers\IServerRepository as IRepo;
 use extas\interfaces\servers\IServer;
+use extas\interfaces\protocols\IProtocolRepository;
+use extas\interfaces\protocols\IProtocol;
 
 $app = new \Slim\App;
 $app->any('/', function(Request $request, Response $response, array $args){
@@ -21,9 +23,19 @@ $app->any('/', function(Request $request, Response $response, array $args){
 $app->any('/{subject}/{operation}', function (Request $request, Response $response, array $args) {
 
     /**
+     * @var $protocolRepo IProtocolRepository
+     * @var $protocols IProtocol[]
      * @var $serverRepo \extas\interfaces\servers\IServerRepository
      * @var $servers \extas\interfaces\servers\IServer[]
      */
+    $protocolRepo = Container::getItem(IProtocolRepository::class);
+    $protocols = $protocolRepo->all([
+        IProtocol::FIELD__ACCEPT => [$request->getHeader('ACCEPT'), '*']
+    ]);
+    foreach ($protocols as $protocol) {
+        $protocol($args);
+    }
+
     $serverRepo = Container::getItem(IRepo::class);
     $servers = $serverRepo->all([IServer::FIELD__TEMPLATE => 'http.base']);
 
