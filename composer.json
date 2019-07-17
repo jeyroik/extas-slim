@@ -4,6 +4,7 @@
   "require": {
     "slim/slim": "^3.0",
     "jeyroik/extas-server": "*",
+    "jeyroik/extas-protocols": "*",
     "vlucas/phpdotenv": "^2.4"
   },
   "autoload": {
